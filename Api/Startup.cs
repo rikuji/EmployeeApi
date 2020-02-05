@@ -42,6 +42,13 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:3000");
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
+
             app.UseMvc();
         }
     }

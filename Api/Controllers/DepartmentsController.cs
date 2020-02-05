@@ -1,6 +1,7 @@
 ﻿using Api.Models;
 using Api.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace Api.Controllers
@@ -34,9 +35,19 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Department department)
+        public string Post([FromBody] Department department)
         {
-            _departmentRepository.Add(department);
+            try
+            {
+                _departmentRepository.Add(department);
+
+                return "Added Successfully";
+
+            } catch(Exception)
+            {
+                return "Failed to Add";
+            }
+            
         }
 
         [HttpPut]
