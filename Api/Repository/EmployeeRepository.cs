@@ -10,10 +10,12 @@ namespace Api.Repository
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly Context _context;
+        private readonly IDepartmentRepository _departmentRepository;
 
-        public EmployeeRepository(Context context)
+        public EmployeeRepository(Context context, IDepartmentRepository departmentRepository)
         {
             _context = context;
+            _departmentRepository = departmentRepository;
         }
 
         public void Add(Employee employee)
@@ -29,7 +31,25 @@ namespace Api.Repository
 
         public IEnumerable<Employee> GetAll()
         {
-            return _context.Employees.ToList();
+            var lst = new List<Employee>();
+
+            var lstEmployee = _context.Employees.ToList();
+
+            foreach (var item in lstEmployee)
+            {
+                var employee = new Employee
+                {
+                    ID = item.ID,
+                    Name = item.Name,
+                    DepartmentId = item.DepartmentId,
+                    Department = _departmentRepository.Find(item.DepartmentId),
+                    Email = item.Email,
+                    DOJ = item.DOJ
+                };
+                lst.Add(employee);
+            }
+
+            return lst;
         }
 
         public void Remove(int id)

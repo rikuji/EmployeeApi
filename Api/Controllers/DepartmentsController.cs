@@ -51,9 +51,20 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public void Put([FromBody]Department department)
+        public string Put([FromBody]Department department)
         {
-            _departmentRepository.Update(department);
+            try
+            {
+                _departmentRepository.Update(department);
+
+                return "Edited Successfully";
+
+            }
+            catch (Exception)
+            {
+                return "Failed to Edit";
+            }
+
         }
 
         [HttpDelete("{id}")]

@@ -1,6 +1,7 @@
 ﻿using Api.Models;
 using Api.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace Api.Controllers
@@ -34,15 +35,37 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Employee employee)
+        public string Post([FromBody] Employee employee)
         {
-            _employeeRepository.Add(employee);
+            try
+            {
+                _employeeRepository.Add(employee);
+
+                return "Added Successfully";
+
+            }
+            catch (Exception)
+            {
+                return "Failed to Add";
+            }
+            
         }
 
         [HttpPut]
-        public void Put([FromBody]Employee employee)
+        public string Put([FromBody]Employee employee)
         {
-            _employeeRepository.Update(employee);
+            try
+            {
+                _employeeRepository.Update(employee);
+
+                return "Edited Successfully";
+
+            }
+            catch (Exception)
+            {
+                return "Failed to Edit";
+            }
+            
         }
 
         [HttpDelete("{id}")]
